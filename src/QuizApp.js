@@ -4,7 +4,6 @@ import Result from "./components/Result";
 import questions from "./data/questions";
 import "./styles/QuizApp.css";
 
-// Function to shuffle and pick 10 random questions
 function getRandomQuestions() {
   const shuffled = [...questions].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, 10);
@@ -18,6 +17,7 @@ const QuizApp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   
   const randomQuestions = getRandomQuestions();
+  const [score, setScore] = useState(0); // Initialize score
 
   const handleNext = () => {
     if (selectedOption === null) {
@@ -25,20 +25,40 @@ const QuizApp = () => {
       return;
     }
 
-    setErrorMessage(""); // Clear error message if validation passes
+    setErrorMessage("");
+    const currentQuestion = randomQuestions[currentQuestionIndex];
+    const isCorrect = selectedOption === currentQuestion.correctAnswer;
+
     const answer = {
-      question: randomQuestions[currentQuestionIndex].question,
-      options: randomQuestions[currentQuestionIndex].options,
-      correctAnswer: randomQuestions[currentQuestionIndex].correctAnswer,
+      question: currentQuestion.question,
+      options: currentQuestion.options,
+      correctAnswer: currentQuestion.correctAnswer,
       selectedAnswer: selectedOption,
+      isCorrect,
     };
-    setAnswers([...answers, answer]);
-    setSelectedOption(null); // Reset selected option for the next question
+
+    if (isCorrect) {
+      setScore(score + 1); // Increase score if answer is correct
+    }
+
+    // Store or update answer in answers array
+    const updatedAnswers = [...answers];
+    updatedAnswers[currentQuestionIndex] = answer;
+    setAnswers(updatedAnswers);
+    setSelectedOption(null);
 
     if (currentQuestionIndex + 1 < randomQuestions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      setShowResult(true); // Show result if it's the last question
+      setShowResult(true);
+    }
+  };
+
+  const handlePreview = () => {
+    if (currentQuestionIndex > 0) {
+      const previousAnswer = answers[currentQuestionIndex - 1];
+      setSelectedOption(previousAnswer?.selectedAnswer || null);
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
 
@@ -58,10 +78,15 @@ const QuizApp = () => {
             handleSelectOption={handleSelectOption}
           />
           {errorMessage && <p className="error-message">{errorMessage}</p>}
-          <button onClick={handleNext} className="next-button">Next</button>
+          <div className="button-container">
+            {currentQuestionIndex > 0 && (
+              <button onClick={handlePreview} className="preview-button">Preview</button>
+            )}
+            <button onClick={handleNext} className="next-button">Next</button>
+          </div>
         </div>
       ) : (
-        <Result answers={answers} />
+        <Result answers={answers} score={score} />
       )}
     </div>
   );

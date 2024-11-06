@@ -9,7 +9,7 @@
   background-color: #fff;
 }
 
-h2 {
+h2, h3 {
   text-align: center;
 }
 
@@ -28,20 +28,33 @@ li {
   margin-top: 10px;
 }
 
-.next-button {
-  display: block;
-  margin: 20px auto;
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.preview-button, .next-button {
   padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
+.preview-button {
+  background-color: #ffcc00;
+  color: white;
+}
+
+.next-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 table, th, td {

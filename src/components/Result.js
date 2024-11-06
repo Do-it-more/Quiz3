@@ -1,10 +1,12 @@
 // src/components/Result.js
 import React from "react";
 
-const Result = ({ answers }) => {
+const Result = ({ answers, score }) => {
   return (
     <div>
       <h2>Your Answers Submitted</h2>
+      <h3>Score: {score} / {answers.length}</h3> {/* Display score */}
+      
       <table>
         <thead>
           <tr>
@@ -19,7 +21,14 @@ const Result = ({ answers }) => {
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{answer.question}</td>
-              <td>{answer.selectedAnswer}</td>
+              <td
+                style={{
+                  backgroundColor: answer.isCorrect ? "lightgreen" : "salmon",
+                  color: answer.isCorrect ? "black" : "white",
+                }}
+              >
+                {answer.selectedAnswer}
+              </td>
               <td>{answer.correctAnswer}</td>
             </tr>
           ))}
