@@ -1,0 +1,22 @@
+/* File: src/styles/QuizApp.css */
+
+.quiz-app {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .quiz-app h2 {
+    font-size: 1.5rem;
+  }
+  
+  .quiz-app .ant-radio-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .quiz-app .ant-btn {
+    margin-top: 20px;
+  }
+  
