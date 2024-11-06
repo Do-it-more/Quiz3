@@ -1,22 +1,25 @@
-// File: src/components/Question.js
-
+// src/components/Question.js
 import React from "react";
-import { Button, Radio } from "antd";
 
-const Question = ({ data, onAnswerSelected }) => {
+const Question = ({ questionData, selectedOption, handleSelectOption }) => {
   return (
     <div>
-      <h2>{data.question}</h2>
-      <Radio.Group onChange={(e) => onAnswerSelected(e.target.value)}>
-        {data.options.map((option, index) => (
-          <Radio key={index} value={option}>
-            {option}
-          </Radio>
+      <h3>{questionData.question}</h3>
+      <ul>
+        {questionData.options.map((option, index) => (
+          <li key={index}>
+            <label>
+              <input
+                type="radio"
+                value={option}
+                checked={selectedOption === option}
+                onChange={() => handleSelectOption(option)}
+              />
+              {option}
+            </label>
+          </li>
         ))}
-      </Radio.Group>
-      <Button type="primary" onClick={() => onAnswerSelected(null)}>
-        Next
-      </Button>
+      </ul>
     </div>
   );
 };
