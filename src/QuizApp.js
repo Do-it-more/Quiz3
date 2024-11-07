@@ -1,3 +1,4 @@
+// QuizApp.js
 import React, { useState } from "react";
 import Question from "./components/Question";
 import Result from "./components/Result";
@@ -19,16 +20,22 @@ const QuizApp = () => {
   const randomQuestions = getRandomQuestions();
   const [score, setScore] = useState(0); // Initialize score
 
+  // Updated handleNext function
   const handleNext = () => {
     if (selectedOption === null) {
       setErrorMessage("Please select an option to proceed.");
       return;
     }
-
+  
     setErrorMessage("");
     const currentQuestion = randomQuestions[currentQuestionIndex];
     const isCorrect = selectedOption === currentQuestion.correctAnswer;
-
+  
+    // Debugging log
+    console.log("Selected Option:", selectedOption);
+    console.log("Correct Answer:", currentQuestion.correctAnswer);
+    console.log("Is Correct:", isCorrect);
+  
     const answer = {
       question: currentQuestion.question,
       options: currentQuestion.options,
@@ -36,23 +43,24 @@ const QuizApp = () => {
       selectedAnswer: selectedOption,
       isCorrect,
     };
-
+  
     if (isCorrect) {
-      setScore(score + 1); // Increase score if answer is correct
+      setScore(prevScore => prevScore + 1);
     }
-
-    // Store or update answer in answers array
+  
+    // Update answers array
     const updatedAnswers = [...answers];
     updatedAnswers[currentQuestionIndex] = answer;
     setAnswers(updatedAnswers);
     setSelectedOption(null);
-
+  
     if (currentQuestionIndex + 1 < randomQuestions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       setShowResult(true);
     }
   };
+  
 
   const handlePreview = () => {
     if (currentQuestionIndex > 0) {
